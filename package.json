@@ -1,0 +1,24 @@
+{
+  "name": "luna-outpost",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Luna Outpost - a 2D/3D lunar civilization builder that teaches mission engineering trade-offs",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "balance": "node tools/balance-sim.mjs",
+    "radlab:snapshot": "node tools/radlab-snapshot.mjs"
+  },
+  "dependencies": {
+    "@fontsource/fredoka": "^5.3.0",
+    "@fontsource/nunito": "^5.3.0",
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
+  }
+}

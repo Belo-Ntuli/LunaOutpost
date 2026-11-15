@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luna Outpost - Build a Moon Base!</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌕</text></svg>" />
+  </head>
+  <body>
+    <div id="globe"></div>
+
+    <header id="hud" class="topbar hidden">
+      <div id="hud-resources" class="res-row"></div>
+      <div class="topbar__right">
+        <div id="hud-crew" class="pill-group"></div>
+        <button id="btn-shelter" class="btn hud-action hud-action--shelter hidden" aria-label="Storm Shelter"></button>
+        <button id="btn-earth" class="btn hud-action hud-action--earth hidden" aria-label="Call Earth"></button>
+        <div id="hud-day" class="day-badge"></div>
+        <button id="btn-pause" class="btn btn--round btn--yellow" aria-label="Pause or play" data-tip-title="⏸ Pause" data-tip="Stop or start time. You can also press the Space bar. You can still build while paused!">⏸</button>
+        <button id="btn-speed" class="btn btn--round" aria-label="Game speed" data-tip-title="⏩ Speed" data-tip="Make time go faster: 1x, 2x or 4x.">1x</button>
+        <button id="btn-menu" class="btn btn--round" aria-label="Menu" data-tip-title="☰ Menu" data-tip="How to play, start a new game, or go back to the main menu.">☰</button>
+      </div>
+      <div class="day-progress"><div id="hud-progress-bar"></div></div>
+    </header>
+
+    <div id="astro" class="astro hidden">
+      <div class="astro__face" aria-hidden="true"><span>🧑‍🚀</span></div>
+      <div class="astro__bubble"><b class="astro__name">Astro</b><span id="astro-text"></span></div>
+    </div>
+
+    <aside id="goals" class="card goals hidden">
+      <h3>⭐ Goals <span id="goal-count"></span></h3>
+      <ul id="goal-list"></ul>
+    </aside>
+
+    <div id="spawn-banner" class="banner hidden">🚀 Pick a place to land! Point at the Moon to learn about each place.</div>
+    <div id="pause-badge" class="pause-badge hidden">⏸ Paused - press ▶ to play</div>
+    <div id="tooltip" class="card tooltip hidden"></div>
+    <div id="hud-tip" class="card tooltip hud-tip hidden" role="tooltip"></div>
+
+    <section id="sector-screen" class="sector-screen hidden">
+      <div class="sector-screen__header">
+        <button id="btn-back" class="btn btn--blue">⬅ Back to Moon</button>
+        <h2 id="sector-title"></h2>
+        <div id="sector-light" class="chip-big"></div>
+      </div>
+      <div class="sector-screen__body">
+        <div class="sector-screen__map">
+          <canvas id="sector-canvas"></canvas>
+          <div id="sector-hint" class="sector-hint"></div>
+        </div>
+        <aside class="sector-screen__panel">
+          <div id="cell-info" class="cell-info"></div>
+          <h3>🏗️ Build</h3>
+          <div id="build-menu" class="build-menu"></div>
+        </aside>
+      </div>
+    </section>
+
+    <div id="title-screen" class="overlay">
+      <div class="card title-card">
+        <div class="title-card__moon" aria-hidden="true">🌕</div>
+        <h1>Luna Outpost</h1>
+        <p class="title-card__tag">Build a base on the Moon and keep your astronauts safe!</p>
+        <div class="title-card__steps">
+          <div><span>🌕</span>Pick a place</div>
+          <div><span>🛠️</span>Build machines</div>
+          <div><span>🧑‍🚀</span>Keep everyone alive</div>
+          <div><span>🚙</span>Explore the Moon</div>
+        </div>
+        <div class="title-card__buttons">
+          <button id="btn-continue" class="btn btn--big btn--green hidden">▶ Keep playing</button>
+          <button id="btn-new" class="btn btn--big btn--yellow">🚀 New game</button>
+        </div>
+        <p id="best-days" class="title-card__best"></p>
+        <button id="btn-nasa" class="btn btn--blue title-card__nasa">📡 Real NASA data in this game</button>
+        <p id="real-sun" class="title-card__sun"></p>
+      </div>
+    </div>
+
+    <div id="modal" class="overlay hidden">
+      <div class="card modal">
+        <div id="modal-art" class="modal__art"></div>
+        <h2 id="modal-title"></h2>
+        <div id="modal-body" class="modal__body"></div>
+        <div id="modal-actions" class="modal__actions"></div>
+      </div>
+    </div>
+
+    <div id="toasts" class="toasts"></div>
+    <div id="loading" class="overlay loading">🌕 Making the Moon…</div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
