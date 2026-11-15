@@ -13,11 +13,12 @@
   --purple: #9b5de5;
   --radius: 22px;
   --top: 96px; /* updated from JS to the real top bar height */
-  --font-head: 'Fredoka', 'Trebuchet MS', 'Segoe UI', sans-serif;
-  --font-body: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+  --font-head: 'Orbitron', 'Arial Black', 'Segoe UI', sans-serif;
+  --font-body: 'Rajdhani', 'Segoe UI', sans-serif;
   font-family: var(--font-body);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 18px;
+  letter-spacing: 0.02em;
   color: var(--text);
   background: var(--bg);
 }
@@ -26,7 +27,13 @@
 html, body { margin: 0; height: 100%; overflow: hidden; }
 /* Themed cursors come from src/ui/cursors.js as CSS variables, with normal cursors as fallback. */
 body { cursor: var(--cur-default, default); }
-h1, h2, h3 { margin: 0; font-family: var(--font-head); font-weight: 600; }
+h1, h2, h3 {
+  margin: 0;
+  font-family: var(--font-head);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
 button { font: inherit; }
 .hidden { display: none !important; }
 
