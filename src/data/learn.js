@@ -10,7 +10,7 @@ export const INTRO_CARDS = [
 export const EVENT_CARDS = {
   night: { art: '🌙', title: 'Moon night!', text: 'A night on the Moon lasts about 15 Earth days! Solar Panels stop working. Batteries and Nuclear Power keep the lights on.' },
   flare: { art: '☢️', title: 'Solar storm!', text: 'The Sun sometimes blasts out dangerous radiation. Earth\'s air protects us, but the Moon has none. Build Rock Shields, or turn on the 🛡️ Storm Shelter at the top (it uses power).' },
-  expedition: { art: '🚙', title: 'Explorers on the way!', text: 'Real astronauts used a Moon buggy called the Lunar Rover to explore further from their lander.' },
+  expedition: { art: '🧭', image: 'rover', title: 'Explorers on the way!', text: 'Real astronauts used a Moon buggy called the Lunar Rover to explore further from their lander.' },
   explored: { art: '🗺️', title: 'New place unlocked!', text: 'Every place on the Moon is different. Some have ice, some have metal, some get more sun. Use them all!' },
   rocket: { art: '🚀', title: 'Rocket delivery!', text: 'The Apollo astronauts took about 3 days to fly from Earth to the Moon. That is why you must call Earth BEFORE you run out!' },
   'call-earth': { art: '📡🌍', title: 'Talking to Earth', text: 'Radio messages travel at the speed of light. From the Moon they reach Earth in about 1.3 seconds. From Mars they can take up to 22 minutes! Mars astronauts must solve most problems on their own.' },

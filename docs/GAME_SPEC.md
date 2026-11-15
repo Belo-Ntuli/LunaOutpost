@@ -67,7 +67,7 @@ Big yellow title, 4 picture steps (Pick a place · Build machines · Keep everyo
 - The 15 places are **continents**: raised, organically shaped landmasses separated by dark channels.
   (Earlier versions used hex tiles on the globe; that was changed to continents on request. Hexes are
   still used in the 2D map.)
-- Name labels float over each continent: 🚩 home base (yellow, like the flags Apollo astronauts planted), 🔒 locked, 🚙 explorers on the way.
+- Name labels float over each continent: 🚩 home base (yellow, like the flags Apollo astronauts planted), 🔒 locked, Moon-rover picture = explorers on the way.
 - **Hover** a place: it lifts up, glows, and a card shows its name, one-line description, **star ratings**
   (☀️ Sun, 🧊 Ice, 🔩 Metal, 🪨 Dirt, 🛡️ Safe — 1 to 3 stars, "no night!" for polar places) and a
   💡 fact. Then:
@@ -90,13 +90,17 @@ Big yellow title, 4 picture steps (Pick a place · Build machines · Keep everyo
 | 🕳️ Lava cave | ✅ | A Moon Home here is 100% safe from radiation |
 | Crater | ❌ | — |
 
-- **Build menu** (right): big cards with icon, name, one-line description and cost. A coloured stripe
+- **Build menu** (right): big cards with picture, name, one-line description and cost. A coloured stripe
   shows the group: green = life support, yellow = power, orange = building materials, purple = safety.
 - Pick a card, then click a hexagon. Green/red preview; the hint bar says why a spot doesn't work.
 - The **selected card** sits at the **top of the build panel** (sticky, yellow border, ✕ to close), so it is always visible
   even when the build list is scrolled. It shows the machine you are about to build (what it does + cost), or the
   hexagon / building you clicked: what it does, how well it's working ("Working at 125% here 🎉"), its fact, and a
   **🗑️ Remove** button (half the materials back).
+- **Pictures:** every machine has its own drawn picture (`src/ui/icons.js`) in one "Moon base" style — silver
+  modules with dark-blue outlines standing on grey Moon ground. The same picture is shown on the map, in the build
+  menu, on "You built …!" cards and as the cursor while placing it, with no circle behind it. Emoji are only used in
+  plain text (tips, facts, log).
 - The map darkens at night. **Esc** / right-click cancels building; "⬅ Back to Moon" flies back out.
 
 ### 3.4 Top bar (always visible in a game)
@@ -107,7 +111,7 @@ Big yellow title, 4 picture steps (Pick a place · Build machines · Keep everyo
   - Oxygen, Water, Food: the bar shows **days of supply** (full = 20 days) and "⏳ 8 days" when going down.
     The card pulses red under 5 days.
   - Energy: bar = battery fullness. Metal and Regolith: "▲ 6 a day" or a short hint.
-- 👩‍🚀 astronauts / beds, 🚙 explorers away, 🛡️ % safe from solar storms, 📡 **today's real space radiation**
+- 👩‍🚀 astronauts / beds, rover picture + number = explorers away, 🛡️ % safe from solar storms, 📡 **today's real space radiation**
   (Calm 🟢 / Normal 🟡 / Storm! 🔴 — hover for the real NASA reading and date, see section 12).
 - **Day badge**: "Day 12 · ☀️ Daytime · 3d to night" (purple at night).
 - Big round **⏸ / ▶** button (also **Space**), **1x/2x/4x** speed, **☰** menu.
@@ -131,9 +135,9 @@ The cursor always shows what a click will do (drawn at runtime by `src/ui/cursor
 | Moon | Empty space / dragging to turn it | ✋ / ✊ |
 | Moon, choosing a landing place | Over a place | 🚀 land here |
 | Moon | Your explored places | 🔍 zoom in |
-| Moon | Locked place you can explore now / can't afford yet | 🚙 / 🔒 |
+| Moon | Locked place you can explore now / can't afford yet | Moon rover / 🔒 |
 | Moon | Explorers on the way | ⏳ |
-| Base map | Building something, on a good spot | The machine itself (e.g. 🫧, 🌱) |
+| Base map | Building something, on a good spot | The machine's own picture |
 | Base map | Building something, on a bad spot | 🚫 |
 | Base map | Over a building or buildable ground (not building) | 👆 |
 
@@ -141,8 +145,10 @@ The cursor always shows what a click will do (drawn at runtime by `src/ui/cursor
 
 - **🧑‍🚀 Astro** (bottom-left: an astronaut floating in a glass helmet, with a speech bubble): one tip at a time,
   most urgent first. In the first days Astro walks
-  kids through the build order: Air Maker → Ice Drill → Greenhouse → Solar Panels.
-- **⭐ Goals** card (Moon view): the next 3 goals and how many are done.
+  kids through the build order: Air Maker → Ice Drill → Greenhouse → Solar Panels. When a tip names a machine, it shows
+  that machine's own picture (the same one as in the build menu), so kids know exactly what to look for.
+- **⭐ Goals** card (Moon view): the next 3 small goals and how many are done, plus the **🏆 Big goal — Explore the
+  WHOLE Moon!** always pinned at the bottom with a progress bar ("🌕 4 / 15 sections").
 - **💡 Did you know? cards** (pause the game while open), each shown once per game:
   - the first time you build each machine (its fact),
   - first night, first solar storm warning, first time power runs short, first time air/water/food runs out,
@@ -201,9 +207,11 @@ astronauts, and metal for roughly the first 5 machines). Max 1,500 each (except 
 
 All per day (`src/data/buildings.js`). There is **no staffing** — machines run by themselves.
 
+Each building also has its own picture (see 3.3); the emoji below are the text icons.
+
 | Building | Group | Cost | Energy | Makes | Uses | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
-| Moon Home (custom Moon-base tent picture) | life | 80 metal, 40 regolith | -2 | — | — | 8 beds |
+| ⛺ Moon Home | life | 80 metal, 40 regolith | -2 | — | — | 8 beds |
 | 🧊 Ice Drill | life | 40 metal | -4 | 8 water | — | × place ice; ×1.5 on ice |
 | 🫧 Air Maker | life | 45 metal | -6 | 9 oxygen | 3 water | Electrolysis |
 | 🪴 Greenhouse | life | 40 metal, 20 regolith | -5 | 9 food, 2 oxygen | 2 water | |
@@ -273,15 +281,21 @@ The Deep Shadowed Crater is always dark.
 ## 8. Exploring
 
 - Hover a 🔒 place to see what you need; click it to open "Explore …?".
+- Explorers drive an Apollo-style **Moon rover** (drawn picture with an astronaut driver, umbrella radio dish and wire-mesh
+  wheels, like NASA's Lunar Roving Vehicle). It shows on the title screen, the explore pop-up, the globe label, the
+  hover card, the top bar and the "Explore 3 more sections" goal; plain text uses 🧭.
 - Cost = base cost × `(1 + 0.35 × (places explored − 1))` for materials. Explorers and days are fixed.
 - **At least one astronaut must stay home**, so explorers available = astronauts at base − 1.
 - Several places can be explored at the same time. All places share one pool of resources and astronauts.
 
 ## 9. Goals, winning and losing
 
-Goals (⭐, in order): Survive 7 days · Survive a whole Moon night (30 days) · Explore 3 places ·
-Build Nuclear Power · Build a Rocket Pad · Have 12 astronauts · Survive 100 days · Explore 8 places ·
-Have 25 astronauts · **Explore the WHOLE Moon (you win! — you can keep playing)**.
+Small goals (⭐, in order): Survive 7 days · Survive a whole Moon night (30 days) · Explore 3 more sections ·
+Build Nuclear Power · Build a Rocket Pad · Have 12 astronauts · Survive 100 days · Explore 8 more sections ·
+Have 25 astronauts. "More sections" means on top of your home base (3 more = 4 of 15 open).
+
+**🏆 Big goal: Explore the WHOLE Moon** — open all 15 sections. It is the ultimate mission, so it is always shown at
+the bottom of the Goals card with a progress bar. Reaching it wins the game (🏆 "You explored the whole Moon!"), and you can keep playing.
 
 When no astronauts are left: "Mission over!" with days survived, goals done, places explored, your record
 and a reflection prompt ("What will you build first next time?").

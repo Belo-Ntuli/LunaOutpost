@@ -34,14 +34,15 @@ npm run dev        # open the printed URL (default http://localhost:5173)
 4. **Pick a machine and click a hexagon** to build it. A good start: 🫧 Air Maker → 🧊 Ice Drill → 🪴 Greenhouse → ☀️ Solar Panels.
 5. Press **▶** (or Space) to start time. One day takes 8 seconds. **📅 Days survived is your score.**
 6. Keep the 🫁 💧 🥔 bars full. "⏳ 8 days" means that's how long it will last.
-7. **Explore:** point at a 🔒 place to see what you need, then click it to send explorers.
+7. **Explore:** point at a 🔒 place to see what you need, then click it to send explorers in the Moon rover.
+   **🏆 Big goal: explore the WHOLE Moon** — all 15 sections.
 8. Watch out for 🌙 **Moon night** (solar panels stop) and ☢️ **solar storms**: build 🛡️ Rock Shields, or switch on the
    **🛡️ Storm Shelter** at the top (safer, but it uses power).
 9. Build a 🚀 Rocket Pad, then tap **📡 Call Earth** to order food, water, metal or astronauts. Your radio call really
    takes 1.3 seconds to reach Earth, and the rocket takes 3 days — so call before you run out!
 10. A 🔬 **Science Lab** breathes air and uses power, but makes real NASA discoveries that improve your machines.
 11. 📡 The radiation sign at the top uses **real NASA data** measured near the Moon. When the real data shows a solar storm, you get a warning — build Rock Shields!
-12. 🧑‍🚀 **Astro** the astronaut gives tips, ⭐ **Goals** show what to try next, and 💡 **Did you know?** cards teach real facts.
+12. 🧑‍🚀 **Astro** the astronaut gives tips (with pictures of the machines to build), ⭐ **Goals** show what to try next, and 💡 **Did you know?** cards teach real facts.
 
 The game saves by itself. Press **☰** for help or to start over.
 

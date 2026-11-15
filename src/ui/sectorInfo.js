@@ -2,6 +2,7 @@ import { getSector } from '../data/sectors.js';
 import { checkExpedition } from '../game/actions.js';
 import { getCrewAtBase, getUnlockCost } from '../game/state.js';
 import { esc, needChips } from './format.js';
+import { pictureHtml } from './icons.js';
 
 const starCount = (v) => (v <= 0 ? 0 : v < 0.8 ? 1 : v < 1.3 ? 2 : 3);
 const stars = (v) => {
@@ -45,7 +46,7 @@ export function sectorTooltip(state, sectorId, mode) {
     if (sec.unlocked) {
       status = `<div class="status status--go">${sectorId === state.homeSectorId ? '🚩 Your home base!' : '✅ Explored!'} Click to build</div>`;
     } else if (exp) {
-      status = `<div class="status status--wait">🚙 Explorers arrive in ${exp.daysLeft} day${exp.daysLeft === 1 ? '' : 's'}</div>`;
+      status = `<div class="status status--wait">${pictureHtml('rover', 'ico')} Explorers arrive in ${exp.daysLeft} day${exp.daysLeft === 1 ? '' : 's'}</div>`;
     } else {
       const ok = checkExpedition(state, sectorId).ok;
       status = `<div class="status ${ok ? 'status--go' : 'status--wait'}">🔒 To explore you need:${expeditionNeeds(state, sectorId)}

@@ -30,13 +30,13 @@ src/
     discoveries.js      Science Lab discoveries: real NASA findings + bonuses
     radlabWindows.js    The 6 real 30-day radiation windows (each with a solar storm) + RadLab query builder
     radlabSnapshot.js   GENERATED bundled copy of those windows (npm run radlab:snapshot)
-    milestones.js       Mission goals with test functions
+    milestones.js       Mission goals with test functions; the `big` goal (explore all 15) is always shown
   game/                 Pure game logic — no DOM, fully unit-testable
     state.js            createNewGame + derived queries (housing, crew at base, shielding, sunlight, unlock cost)
     simulation.js       computeDay (pure daily economy) and advanceDay (events, shortages, milestones)
     actions.js          Player actions: build, demolish, startExpedition (+ check* validators)
     sectorMap.js        Deterministic 9×6 hex terrain map per sector (big hexes for small hands)
-    advisor.js          Astro helper tips from state + computeDay report
+    advisor.js          Astro helper tips from state + computeDay report; `{buildingId}` / `{rover}` tokens mark pictures
     storage.js          localStorage save/load/clear + best-days record
     rng.js              Seeded PRNG (mulberry32) and string hash
     radiation.js        Pure RadLab helpers: hourly rows -> daily means, calm/normal/storm levels, storm onsets
@@ -54,7 +54,7 @@ src/
     sectorInfo.js       Sector hover card, star ratings, expedition "need" chips
     sectorPanel.js      Build cards + selected-hex info panel
     modal.js            Modal dialog + toasts
-    icons.js            Custom building pictures (the Moon Home base-tent SVG) + iconHtml() helper
+    icons.js            Drawn SVG pictures for all 13 buildings + the explorer rover; iconHtml()/pictureHtml() helpers
     cursors.js          Themed, context-aware cursors drawn on a canvas (emoji + yellow arrow), exposed as CSS vars
     nasaData.js         "📡 Real NASA data" screen: sources, effects, live vs built-in, real Sun this week
     hudTips.js          Delayed hover cards for top-bar items (data-tip-title / data-tip), shown below the bar
@@ -169,7 +169,8 @@ frame from state (cheap). Hit-testing uses the nearest hex centre.
 
 ### DOM updates
 
-The top bar, Astro tip and Goals card use `innerHTML` (no interactive children). The build menu is created once and
+The top bar, Astro tip and Goals card use `innerHTML` (no interactive children). Astro's text is escaped first, then
+its `{buildingId}` tokens are swapped for the machine's picture (`tipHtml` in `hud.js`), so the logic stays DOM-free. The build menu is created once and
 then only its classes update; the "Selected" panel re-renders only when its content changes. This
 stops buttons from being replaced under the cursor while the clock ticks.
 

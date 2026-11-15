@@ -13,7 +13,7 @@
 // lifeSupport   - gets power first when power runs short
 // maxCount      - colony-wide limit
 // category      - colour group in the build menu: life | power | build | safety
-// image         - custom picture key in ui/icons.js (used instead of the emoji `icon`)
+// image         - picture key in ui/icons.js, shown on the map, build cards and cursor (emoji `icon` is for text)
 // short         - one-line description for kids
 // fact          - "Did you know?" fact shown the first time it is built
 
@@ -27,7 +27,7 @@ export const BUILDINGS = {
     fact: 'Moon homes keep the air in and keep astronauts warm. Nights on the Moon get as cold as -170 °C!',
   },
   solar: {
-    id: 'solar', name: 'Solar Panel', icon: '☀️', category: 'power',
+    id: 'solar', name: 'Solar Panel', icon: '☀️', image: 'solar', category: 'power',
     cost: { metal: 35 },
     energyUse: 0, produces: { energy: 10 }, consumes: {},
     trait: 'sunlight', bonusTerrain: 'peak', terrainBonus: 1.25,
@@ -35,7 +35,7 @@ export const BUILDINGS = {
     fact: 'A night on the Moon lasts about 2 weeks. Solar panels make no power in the dark.',
   },
   battery: {
-    id: 'battery', name: 'Battery', icon: '🔋', category: 'power',
+    id: 'battery', name: 'Battery', icon: '🔋', image: 'battery', category: 'power',
     cost: { metal: 40, regolith: 10 },
     energyUse: 0, produces: {}, consumes: {},
     energyStorage: 200,
@@ -43,7 +43,7 @@ export const BUILDINGS = {
     fact: 'Batteries store energy from sunny days so machines keep running when it gets dark.',
   },
   reactor: {
-    id: 'reactor', name: 'Nuclear Power', icon: '⚛️', category: 'power',
+    id: 'reactor', name: 'Nuclear Power', icon: '⚛️', image: 'reactor', category: 'power',
     cost: { metal: 140, regolith: 20 },
     energyUse: 0, produces: { energy: 30 }, consumes: {},
     trait: 'reactor',
@@ -51,7 +51,7 @@ export const BUILDINGS = {
     fact: 'NASA is designing small nuclear power plants for the Moon. They work even in the dark.',
   },
   iceMine: {
-    id: 'iceMine', name: 'Ice Drill', icon: '🧊', category: 'life',
+    id: 'iceMine', name: 'Ice Drill', icon: '🧊', image: 'iceMine', category: 'life',
     cost: { metal: 40 },
     energyUse: 4, produces: { water: 8 }, consumes: {},
     trait: 'ice', bonusTerrain: 'ice', terrainBonus: 1.5, lifeSupport: true,
@@ -59,7 +59,7 @@ export const BUILDINGS = {
     fact: 'There is frozen water hiding in dark craters near the Moon\'s poles!',
   },
   electrolysis: {
-    id: 'electrolysis', name: 'Air Maker', icon: '🫧', category: 'life',
+    id: 'electrolysis', name: 'Air Maker', icon: '🫧', image: 'airMaker', category: 'life',
     cost: { metal: 45 },
     energyUse: 6, produces: { oxygen: 9 }, consumes: { water: 3 },
     lifeSupport: true,
@@ -67,7 +67,7 @@ export const BUILDINGS = {
     fact: 'Water is made of hydrogen and oxygen. Electricity can split it apart to make air!',
   },
   greenhouse: {
-    id: 'greenhouse', name: 'Greenhouse', icon: '🪴', category: 'life',
+    id: 'greenhouse', name: 'Greenhouse', icon: '🪴', image: 'greenhouse', category: 'life',
     cost: { metal: 40, regolith: 20 },
     energyUse: 5, produces: { food: 9, oxygen: 2 }, consumes: { water: 2 },
     lifeSupport: true,
@@ -75,7 +75,7 @@ export const BUILDINGS = {
     fact: 'Astronauts have grown lettuce, peppers and even flowers on the space station.',
   },
   recycler: {
-    id: 'recycler', name: 'Water Cleaner', icon: '♻️', category: 'life',
+    id: 'recycler', name: 'Water Cleaner', icon: '♻️', image: 'recycler', category: 'life',
     cost: { metal: 50, regolith: 10 },
     energyUse: 3, produces: {}, consumes: {},
     recycles: { water: 6 }, lifeSupport: true,
@@ -83,7 +83,7 @@ export const BUILDINGS = {
     fact: 'On the space station, astronauts recycle almost all of their water - even sweat!',
   },
   excavator: {
-    id: 'excavator', name: 'Moon Digger', icon: '⛏️', category: 'build',
+    id: 'excavator', name: 'Moon Digger', icon: '⛏️', image: 'digger', category: 'build',
     cost: { metal: 25 },
     energyUse: 2, produces: { regolith: 9 }, consumes: {},
     trait: 'regolith',
@@ -91,7 +91,7 @@ export const BUILDINGS = {
     fact: 'Moon dirt is called regolith. It is sharp and sticky, like tiny bits of broken glass.',
   },
   refinery: {
-    id: 'refinery', name: 'Metal Maker', icon: '⚙️', category: 'build',
+    id: 'refinery', name: 'Metal Maker', icon: '⚙️', image: 'metalMaker', category: 'build',
     cost: { metal: 30, regolith: 50 },
     energyUse: 8, produces: { metal: 6, oxygen: 1 }, consumes: { regolith: 6 },
     trait: 'metal', bonusTerrain: 'ore', terrainBonus: 1.5,
@@ -99,7 +99,7 @@ export const BUILDINGS = {
     fact: 'Moon rocks are almost half oxygen! Melting them gives us metal AND air.',
   },
   shield: {
-    id: 'shield', name: 'Rock Shield', icon: '🛡️', category: 'safety',
+    id: 'shield', name: 'Rock Shield', icon: '🛡️', image: 'shield', category: 'safety',
     cost: { regolith: 70 },
     energyUse: 0, produces: {}, consumes: {},
     shielding: 0.25,
@@ -107,14 +107,14 @@ export const BUILDINGS = {
     fact: 'The Moon has no thick air to block harmful sun rays. A thick layer of dirt keeps astronauts safe.',
   },
   lab: {
-    id: 'lab', name: 'Science Lab', icon: '🔬', category: 'science',
+    id: 'lab', name: 'Science Lab', icon: '🔬', image: 'lab', category: 'science',
     cost: { metal: 60, regolith: 30 },
     energyUse: 5, produces: { research: 1 }, consumes: { oxygen: 3 },
     short: 'Makes discoveries. Uses air and power.',
     fact: 'Astronauts on the International Space Station run hundreds of science experiments every year. Science needs air and power too!',
   },
   pad: {
-    id: 'pad', name: 'Rocket Pad', icon: '🚀', category: 'safety',
+    id: 'pad', name: 'Rocket Pad', icon: '🚀', image: 'rocketPad', category: 'safety',
     cost: { metal: 80, regolith: 120 },
     energyUse: 1, produces: {}, consumes: {},
     maxCount: 1,

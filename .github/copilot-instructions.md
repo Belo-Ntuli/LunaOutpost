@@ -45,6 +45,9 @@ Read `docs/GAME_SPEC.md` (design) and `docs/ARCHITECTURE.md` (code) before large
   `reason` is shown to kids — friendly and short.
 - Random events must use the injected `rng` parameter. Map generation is deterministic (seeded by place id).
 - Don't rebuild interactive DOM (buttons) every tick — update classes, or re-render only on change.
+- Pictures: every building has a drawn SVG in `src/ui/icons.js` (`image` key in `buildings.js`); show it with
+  `iconHtml()` / `pictureHtml()`, not a circle or frame. Emoji stay for plain text. In Astro tips write `{buildingId}`
+  (or `{rover}`) where the machine's picture should appear.
 - Cursors: use `CURSORS` / `emojiCursor()` from `src/ui/cursors.js` (or the `--cur-*` CSS variables), not plain
   `cursor: pointer`, and make the cursor show what a click will do.
 - Top-bar tooltips: use `data-tip-title` / `data-tip` (shown by `src/ui/hudTips.js` below the bar), not `title`.
@@ -67,7 +70,7 @@ Read `docs/GAME_SPEC.md` (design) and `docs/ARCHITECTURE.md` (code) before large
 - Hovering a locked place shows the materials + explorers needed; expeditions unlock places.
 - Resources: oxygen, water, food, energy, metal, regolith. Start with 7 astronauts.
 - Day counter (score), big pause/play button + Space, speed toggle, autosave to localStorage, best-days record.
-- Tutorial cards, Astro helper, Goals card, "Did you know?" cards.
+- Tutorial cards, Astro helper, Goals card (next 3 goals + the pinned 🏆 big goal: explore all 15 sections), "Did you know?" cards.
 - Landing flies straight into the new base. The selected-building card is sticky at the top of the build panel.
 - 📡 real NASA radiation (RadLab) with offline snapshot fallback.
 - 📡 Call Earth (real 1.3 s radio delay + 3-day rocket), 🛡️ Storm Shelter (safety for power), 🔬 Science Lab (air for discoveries).

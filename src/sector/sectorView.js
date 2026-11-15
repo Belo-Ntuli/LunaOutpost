@@ -144,7 +144,7 @@ export class SectorView {
       outline(this.hoverCell, ok ? '#66ff99' : '#ff5a5a', 3);
       if (!buildings.has(this.hoverCell)) {
         ctx.globalAlpha = 0.6;
-        drawBuildingIcon(ctx, BUILDINGS[view.placingType], centers[this.hoverCell].x, centers[this.hoverCell].y, size);
+        drawBuildingIcon(ctx, BUILDINGS[view.placingType], centers[this.hoverCell].x, centers[this.hoverCell].y - size * 0.08, size * 1.55);
         ctx.globalAlpha = 1;
       }
     } else {
@@ -223,46 +223,20 @@ function drawIcon(ctx, icon, x, y, size) {
   ctx.fillText(icon, x, y + size * 0.04);
 }
 
-// Ring colour per build-menu group, so the map matches the build cards.
-const CATEGORY_COLOR = { life: '#80ed99', power: '#ffd23f', build: '#ff9f43', safety: '#9b5de5', science: '#4cc9f0' };
-
-/** Draws a building as a round space-module "porthole" glowing in its group colour. */
+/** Draws a building's picture standing on its hexagon. */
 function drawBuilding(ctx, b, x, y, size) {
-  const def = BUILDINGS[b.type];
-  const ring = CATEGORY_COLOR[def.category] ?? '#ffd23f';
-  const r = size * 0.66;
-  ctx.save();
-  ctx.shadowColor = ring;
-  ctx.shadowBlur = 10;
-  const grad = ctx.createRadialGradient(x - r * 0.3, y - r * 0.35, r * 0.1, x, y, r);
-  grad.addColorStop(0, '#3a4785');
-  grad.addColorStop(1, '#0d1230');
-  ctx.beginPath();
-  ctx.arc(x, y, r, 0, Math.PI * 2);
-  ctx.fillStyle = grad;
-  ctx.fill();
-  ctx.shadowBlur = 0;
-  ctx.lineWidth = 3;
-  ctx.strokeStyle = ring;
-  ctx.stroke();
-  // Small metal "bolts" around the rim make it look like a hatch on a space station.
-  ctx.fillStyle = 'rgba(220, 230, 255, 0.7)';
-  for (let k = 0; k < 6; k++) {
-    const a = (Math.PI / 3) * k + Math.PI / 6;
-    ctx.beginPath();
-    ctx.arc(x + Math.cos(a) * (r - 1), y + Math.sin(a) * (r - 1), Math.max(1.2, size * 0.035), 0, Math.PI * 2);
-    ctx.fill();
-  }
-  ctx.restore();
-  drawBuildingIcon(ctx, def, x, y, size * 0.95);
+  drawBuildingIcon(ctx, BUILDINGS[b.type], x, y - size * 0.08, size * 1.55);
 }
 
 /** Draws a building's custom picture (e.g. the Moon dome) or, if it has none, its emoji. */
 function drawBuildingIcon(ctx, def, x, y, size) {
   const img = buildingImage(def);
   if (img?.complete && img.naturalWidth) {
-    const s = size * 0.95;
-    ctx.drawImage(img, x - s / 2, y - s / 2, s, s);
+    ctx.save();
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+    ctx.shadowBlur = 6;
+    ctx.drawImage(img, x - size / 2, y - size / 2, size, size);
+    ctx.restore();
   } else {
     drawIcon(ctx, def.icon, x, y, size);
   }

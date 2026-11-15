@@ -201,7 +201,7 @@ export function advanceDay(state, rng = Math.random) {
     if (exp.daysLeft <= 0) {
       state.expeditions.splice(state.expeditions.indexOf(exp), 1);
       state.sectors[exp.sectorId].unlocked = true;
-      addLog(state, `🚙 The explorers are back! ${getSector(exp.sectorId).name} is open for building.`, 'success', 'explored');
+      addLog(state, `🧭 The explorers are back! ${getSector(exp.sectorId).name} is open for building.`, 'success', 'explored');
     }
   }
 

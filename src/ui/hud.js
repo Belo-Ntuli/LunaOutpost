@@ -1,5 +1,6 @@
 import { RESOURCES } from '../data/resources.js';
-import { MILESTONES } from '../data/milestones.js';
+import { BUILDINGS } from '../data/buildings.js';
+import { MILESTONES, countUnlocked } from '../data/milestones.js';
 import { DISCOVERIES, RESEARCH_PER_DISCOVERY } from '../data/discoveries.js';
 import { RADIO_DELAY_SECONDS, ROCKET_TRAVEL_DAYS, SHELTER_ENERGY, SHELTER_SAFETY } from '../config.js';
 import { getAdvice } from '../game/advisor.js';
@@ -12,6 +13,7 @@ import {
   isLunarDaylight,
 } from '../game/state.js';
 import { esc, fmt } from './format.js';
+import { iconHtml, pictureHtml } from './icons.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -117,7 +119,7 @@ export function renderHud(state, report, { paused, speed, progress }) {
   const shield = Math.round(getColonyShielding(state) * 100);
   $('hud-crew').innerHTML = `
     <div class="pill" ${tipAttrs('👩‍🚀 Astronauts', `You have ${state.population} astronauts and ${beds} beds. Build a Moon Home for more beds, then a Rocket Pad 🚀 brings new astronauts.`)}>👩‍🚀 ${state.population} <small>/ ${beds} beds</small></div>
-    ${away ? `<div class="pill" ${tipAttrs('🚙 Explorers', `${away} astronauts are away exploring. They come back when they arrive.`)}>🚙 ${away}</div>` : ''}
+    ${away ? `<div class="pill" ${tipAttrs('🧭 Explorers', `${away} astronauts are away exploring. They come back when they arrive.`)}>${pictureHtml('rover', 'ico')} ${away}</div>` : ''}
     <div class="pill ${shield < 50 ? 'pill--bad' : ''}" ${tipAttrs('🛡️ Safety', `Your astronauts are ${shield}% safe from solar storms. Build Rock Shields 🛡️ next to your homes.`)}>🛡️ ${shield}%</div>
     ${radiationPill(state)}
     ${researchPill(state)}`;
@@ -138,19 +140,35 @@ export function renderHud(state, report, { paused, speed, progress }) {
   $('btn-speed').textContent = `${speed}x`;
 }
 
+/** The ultimate mission, always shown: explore all 15 sections of the Moon. */
+function bigGoalHtml(state) {
+  const goal = MILESTONES.find((m) => m.big);
+  const done = countUnlocked(state);
+  const won = state.milestones.includes(goal.id);
+  return `<li class="goal-big ${won ? 'done' : ''}"><span>${goal.icon}</span><div><small>Big goal</small>${esc(goal.title)}
+    <div class="goal-big__bar"><i style="width:${Math.round((done / 15) * 100)}%"></i></div><small>🌕 ${done} / 15 sections${won ? ' - you did it! 🎉' : ''}</small></div></li>`;
+}
+
 let lastTip = '';
 let lastGoals = '';
 
+/** Astro's tip as HTML: `{buildingId}` / `{rover}` tokens become the same pictures as the build menu. */
+function tipHtml(text) {
+  return esc(text).replace(/\{(\w+)\}/g, (token, key) =>
+    (BUILDINGS[key] ? iconHtml(BUILDINGS[key]) : pictureHtml(key)) || '');
+}
+
 export function renderHelper(state, report) {
-  const tip = getAdvice(state, report, 1)[0] ?? '🌟 Everything looks great! Try exploring a new place on the Moon.';
+  const tip = getAdvice(state, report, 1)[0] ?? '🌟 Everything looks great! Try exploring a new place on the Moon {rover}.';
   if (tip !== lastTip) {
-    $('astro-text').textContent = tip;
+    $('astro-text').innerHTML = tipHtml(tip);
     lastTip = tip;
   }
 
   const done = MILESTONES.filter((m) => state.milestones.includes(m.id)).length;
-  const next = MILESTONES.filter((m) => !state.milestones.includes(m.id)).slice(0, 3);
-  const html = next.map((m) => `<li><span>${m.icon}</span>${esc(m.title)}</li>`).join('') || '<li class="done"><span>🏆</span>All goals done!</li>';
+  const next = MILESTONES.filter((m) => !m.big && !state.milestones.includes(m.id)).slice(0, 3);
+  const html = (next.map((m) => `<li><span>${m.image ? pictureHtml(m.image, 'ico') : m.icon}</span>${esc(m.title)}</li>`).join('') ||
+    '<li class="done"><span>⭐</span>All small goals done!</li>') + bigGoalHtml(state);
   const key = `${done}|${html}`;
   if (key !== lastGoals) {
     $('goal-count').textContent = `${done}/${MILESTONES.length}`;

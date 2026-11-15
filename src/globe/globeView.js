@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { SECTORS } from '../data/sectors.js';
+import { esc } from '../ui/format.js';
+import { pictureHtml } from '../ui/icons.js';
 import { buildContinents } from './continents.js';
 
 const HOVER_LIFT = 1.045;
@@ -120,8 +122,12 @@ export class GlobeView {
       const label = this.labels.items[sector.id];
       const s = status[sector.id] ?? 'locked';
       label.className = `globe-label globe-label--${s}`;
-      const icon = { home: '🚩', expedition: '🚙', locked: '🔒', open: '', choose: '' }[s];
-      label.textContent = `${icon ? `${icon} ` : ''}${sector.name}`;
+      if (s === 'expedition') {
+        label.innerHTML = `${pictureHtml('rover', 'ico')} ${esc(sector.name)}`;
+      } else {
+        const icon = { home: '🚩', locked: '🔒', open: '', choose: '' }[s];
+        label.textContent = `${icon ? `${icon} ` : ''}${sector.name}`;
+      }
     }
   }
 

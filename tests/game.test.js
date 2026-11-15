@@ -3,6 +3,7 @@ import { ROCKET_TRAVEL_DAYS, SHELTER_ENERGY } from '../src/config.js';
 import { BUILDINGS } from '../src/data/buildings.js';
 import { RESEARCH_PER_DISCOVERY } from '../src/data/discoveries.js';
 import { build, checkExpedition, checkRocket, demolish, requestRocket, setShelter, startExpedition } from '../src/game/actions.js';
+import { getAdvice } from '../src/game/advisor.js';
 import { advanceDay, computeDay, outputMultiplier } from '../src/game/simulation.js';
 import { HOME_CELL, generateSectorMap } from '../src/game/sectorMap.js';
 import { createNewGame, getColonyShielding, getUnlockCost } from '../src/game/state.js';
@@ -22,6 +23,15 @@ function rich(state) {
 }
 
 describe('new game', () => {
+  it('only marks real machine pictures in Astro tips', () => {
+    const s = createNewGame(BASALT);
+    s.day = 20;
+    for (const r of Object.keys(s.resources)) s.resources[r] = 1;
+    s.flare = { daysLeft: 2, strength: 'strong' };
+    const tokens = getAdvice(s, computeDay(s), 99).join(' ').match(/\{\w+\}/g) ?? [];
+    expect(tokens.length).toBeGreaterThan(3);
+    for (const t of tokens) expect([...Object.keys(BUILDINGS), 'rover']).toContain(t.slice(1, -1));
+  });
   it('starts with 7 crew, one habitat in the chosen sector and every other sector locked', () => {
     const s = createNewGame(BASALT);
     expect(s.population).toBe(7);

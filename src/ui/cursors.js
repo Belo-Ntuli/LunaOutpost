@@ -1,6 +1,8 @@
 // Themed, context-aware mouse cursors. Cursor images are drawn on a canvas at runtime
 // (so emoji always render) and cached as CSS `cursor` values with a keyword fallback.
 
+import { pictureImage } from './icons.js';
+
 const SIZE = 40;
 const EMOJI_FONT = '"Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif';
 const cache = new Map();
@@ -76,7 +78,7 @@ export const CURSORS = {
   get grabbing() { return emojiCursor('✊', [0.5, 0.5], 'grabbing'); },
   get land() { return emojiCursor('🚀', [0.82, 0.18], 'pointer'); },
   get zoom() { return emojiCursor('🔍', [0.4, 0.4], 'zoom-in'); },
-  get explore() { return emojiCursor('🚙', [0.5, 0.5], 'pointer'); },
+  get explore() { return imageCursor(pictureImage('rover'), 'rover', 'pointer'); },
   get locked() { return emojiCursor('🔒', [0.5, 0.5], 'not-allowed'); },
   get waiting() { return emojiCursor('⏳', [0.5, 0.5], 'progress'); },
   get no() { return emojiCursor('🚫', [0.5, 0.5], 'not-allowed'); },

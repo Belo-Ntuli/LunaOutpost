@@ -23,7 +23,7 @@ import { renderHelper, renderHud, resetPanelCache } from './ui/hud.js';
 import { closeModal, isModalOpen, showModal, toast } from './ui/modal.js';
 import { initHudTips } from './ui/hudTips.js';
 import { CURSORS, emojiCursor, imageCursor, installCursorVariables } from './ui/cursors.js';
-import { buildingImage, iconHtml, preloadBuildingImages } from './ui/icons.js';
+import { buildingImage, iconHtml, pictureHtml, preloadBuildingImages } from './ui/icons.js';
 import { renderBuildMenu, renderCellInfo } from './ui/sectorPanel.js';
 import { expeditionNeeds, sectorStars, sectorTooltip } from './ui/sectorInfo.js';
 
@@ -48,6 +48,7 @@ let sectorView;
 function init() {
   installCursorVariables();
   preloadBuildingImages(Object.values(BUILDINGS));
+  for (const el of document.querySelectorAll('[data-picture]')) el.innerHTML = pictureHtml(el.dataset.picture, 'ico') || el.innerHTML;
   globe = new GlobeView($('globe'), { onHover: handleGlobeHover, onClick: handleGlobeClick, getCursor: globeCursor });
   sectorView = new SectorView($('sector-canvas'), {
     getView: () => ({
@@ -145,7 +146,7 @@ function queueLearn(id, card) {
 
 function showLearnCard(card) {
   showModal({
-    art: card.art,
+    art: card.image ? pictureHtml(card.image, 'ico ico--art') : card.art,
     title: card.title,
     body: `${card.tag === false ? '' : '<span class="learn-tag">💡 Did you know?</span>'}<p>${esc(card.text)}</p>`,
     actions: [{ label: card.button ?? 'Got it! 👍', className: 'btn--green' }],
@@ -244,7 +245,7 @@ function handleGlobeClick(id) {
   const { state } = app;
   if (state.sectors[id].unlocked) return enterSector(id);
   const exp = state.expeditions.find((e) => e.sectorId === id);
-  if (exp) return toast(`🚙 The explorers reach ${sector.name} in ${exp.daysLeft} day(s).`);
+  if (exp) return toast(`🧭 The explorers reach ${sector.name} in ${exp.daysLeft} day(s).`);
   showExpeditionModal(id);
 }
 
@@ -253,14 +254,14 @@ function showExpeditionModal(id) {
   const check = checkExpedition(app.state, id);
   hideTooltip();
   showModal({
-    art: '🚙',
+    art: pictureHtml('rover', 'ico ico--art'),
     title: `Explore ${sector.name}?`,
     body: `<p>${esc(sector.summary)}</p>${sectorStars(id)}<p>To send explorers you need:</p>${expeditionNeeds(app.state, id)}
       ${check.ok ? '' : `<p style="color:var(--red)">${esc(check.reason)}</p>`}`,
     actions: [
       { label: 'Not now' },
       {
-        label: '🚙 Send explorers!',
+        label: '🧭 Send explorers!',
         className: 'btn--green',
         disabled: !check.ok,
         onClick: () => {

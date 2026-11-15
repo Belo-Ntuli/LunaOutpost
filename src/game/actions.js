@@ -90,7 +90,7 @@ export function startExpedition(state, sectorId) {
   const cost = getUnlockCost(state, sectorId);
   spend(state, cost.resources);
   state.expeditions.push({ sectorId, crew: cost.crew, daysLeft: cost.days });
-  addLog(state, `🚙 ${cost.crew} explorers drove off to ${getSector(sectorId).name}. Back in ${cost.days} days.`, 'info', 'expedition');
+  addLog(state, `🧭 ${cost.crew} explorers drove off to ${getSector(sectorId).name}. Back in ${cost.days} days.`, 'info', 'expedition');
   return { ok: true };
 }
 
